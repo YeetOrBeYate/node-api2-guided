@@ -3,6 +3,7 @@ const Hubs = require('../hubs/hubs-model');
 const HubsRouter = express.Router();
 
 HubsRouter.get('/', (req, res) => {
+    
     Hubs.find(req.query)
     .then(hubs => {
       res.status(200).json(hubs);
@@ -17,6 +18,7 @@ HubsRouter.get('/', (req, res) => {
   });
   
   HubsRouter.get('/:id', (req, res) => {
+    console.log(req.query)
     Hubs.findById(req.params.id)
     .then(hub => {
       if (hub) {
@@ -35,6 +37,7 @@ HubsRouter.get('/', (req, res) => {
   });
   
   HubsRouter.post('/', (req, res) => {
+    
     Hubs.add(req.body)
     .then(hub => {
       res.status(201).json(hub);
@@ -84,5 +87,31 @@ HubsRouter.get('/', (req, res) => {
       });
     });
   });
+// add an endpoint that returns all the messages for a hub
+  HubsRouter.get("/:id/messages", (req,res)=>{
+      Hubs.findHubMessages(req.params.id)
+      .then(messages=>{
+          res.status(200).json(messages);
+      })
+      .catch(err=>{
+          res.status(500).json({message: "error getting hubs message"})
+      })
+  })
 
-  module.exports = HubsRouter;
+// add an endpoint for adding new message to a hub
+  HubsRouter.post("/:id/messages", (req,res)=>{
+    Hubs.addMessage(req.body)
+    .then(message=>{
+        res.status(200).json(message);
+    })
+    .catch(err=>{
+        res.status(500).json({message: "error getting hubs message"})
+    })
+})
+
+
+
+
+
+
+module.exports = HubsRouter;
