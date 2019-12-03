@@ -14,7 +14,7 @@ module.exports = {
 };
 
 function find(query) {
-  const { page = 1, limit = 2, sortby = 'id', sortdir = 'asc' } = query;
+  const { page = 1, limit = 24, sortby = 'id', sortdir = 'asc' } = query;
   const offset = limit * (page - 1);
 
   let rows = db('hubs')
@@ -43,10 +43,12 @@ function remove(id) {
     .del();
 }
 
-function update(id, changes) {
-  return db('hubs')
+async function update(id, changes) {
+  await db('hubs')
     .where({ id })
     .update(changes, '*');
+
+  return findById(id);
 }
 
 function findHubMessages(hubId) {

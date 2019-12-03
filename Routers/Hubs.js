@@ -34,7 +34,7 @@ HubsRouter.get('/', (req, res) => {
     });
   });
   
-  HubsRouter.post('/hubs', (req, res) => {
+  HubsRouter.post('/', (req, res) => {
     Hubs.add(req.body)
     .then(hub => {
       res.status(201).json(hub);

@@ -1,6 +1,6 @@
 const express = require('express');
 
-const hubsRouter = require('../Routers/Hubs')
+const HubsRouter = require('../Routers/Hubs')
 
 
 
@@ -15,7 +15,8 @@ server.get('/', (req, res) => {
   `);
 });
 
-server.use('/api/hubs', hubsRouter);
+//when ever you visit api/hubs, use this router
+server.use('/api/hubs', HubsRouter);
 
 
 
